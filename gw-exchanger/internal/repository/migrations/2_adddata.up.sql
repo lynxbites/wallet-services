@@ -1,0 +1,1 @@
+INSERT INTO rates (usd, rub, eur) VALUES (1, 80.24, 0.8851)

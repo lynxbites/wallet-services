@@ -1,0 +1,1 @@
+INSERT INTO wallets (username, password_hash, email, balance_usd, balance_rub, balance_eur) VALUES ('user', '$2a$12$nG7YESiGvUIsITuLXiIbue77fVsvhF8qGElWAk1IEs6ST4k.6NFxa', 'user@mail', 100, 100, 100)
