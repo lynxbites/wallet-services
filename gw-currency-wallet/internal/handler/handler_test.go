@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"gw-wallet/internal/config"
 	"gw-wallet/internal/handler"
 	"gw-wallet/internal/repository"
 	"gw-wallet/internal/repository/postgres"
@@ -28,9 +29,16 @@ import (
 )
 
 var db *pgxpool.Pool
+var cfg *config.Config
 var connStr string
 
 func TestMain(m *testing.M) {
+	var err error
+	cfg, err = config.NewConfig()
+	if err != nil {
+		log.Fatalf("Could not setup config: %s", err)
+	}
+
 	wd, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("Could not get working directory: %s", err)
@@ -112,7 +120,7 @@ func TestStuff(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	testService := service.NewService(testRepo)
+	testService := service.NewService(testRepo, cfg)
 	testHandler := handler.NewHandler(testService)
 
 	e := echo.New()
@@ -170,7 +178,7 @@ func TestGetBalance(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	testService := service.NewService(testRepo)
+	testService := service.NewService(testRepo, cfg)
 	testHandler := handler.NewHandler(testService)
 
 	e := echo.New()
@@ -212,7 +220,7 @@ func TestDeposit(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	testService := service.NewService(testRepo)
+	testService := service.NewService(testRepo,cfg)
 	testHandler := handler.NewHandler(testService)
 
 	e := echo.New()
@@ -260,7 +268,7 @@ func TestWithdraw(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	testService := service.NewService(testRepo)
+	testService := service.NewService(testRepo,cfg)
 	testHandler := handler.NewHandler(testService)
 
 	e := echo.New()
